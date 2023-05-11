@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>RAY TRACING One Weekend | zuikakublog</title>
+<meta name="description" content="个人小站，学习自用">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://Zuikaku520.github.io/favicon.ico?v=1683821243020">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://Zuikaku520.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://Zuikaku520.github.io">zuikakublog</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>RAY TRACING One Weekend</h1>
+            <p class="article-meta">
+              2023-05-11
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>1.输出一副图像<br>
+渲染首先从一个图像的生成开始，常见的图像格式有很多，这里使用ppm格式图像的的文本流渲染输出和图像本身的渲染输出两种形式展现。</p>
+<p>1️⃣C++的流输出</p>
+<p>文档给出的代码如下</p>
+<p>📌📌📌<br>
+#include <iostream></p>
+<p>int main() {</p>
+<pre><code>// Image
+
+//输出一个256*256像素的图片
+const int image_width = 256;
+const int image_height = 256;
+
+// Render
+
+std::cout &lt;&lt; &quot;P3\n&quot; &lt;&lt; image_width &lt;&lt; ' ' &lt;&lt; image_height &lt;&lt; &quot;\n255\n&quot;;
+
+for (int j = image_height-1; j &gt;= 0; --j) {
+    for (int i = 0; i &lt; image_width; ++i) {
+        auto r = double(i) / (image_width-1);
+        auto g = double(j) / (image_height-1);
+        auto b = 0.25;
+
+        int ir = static_cast&lt;int&gt;(255.999 * r);
+        int ig = static_cast&lt;int&gt;(255.999 * g);
+        int ib = static_cast&lt;int&gt;(255.999 * b);
+
+        std::cout &lt;&lt; ir &lt;&lt; ' ' &lt;&lt; ig &lt;&lt; ' ' &lt;&lt; ib &lt;&lt; '\n';
+    }
+}
+</code></pre>
+<p>}<br>
+📌📌📌</p>
+<p>debug后相当于把图像写到文件中，编译可以看到如下的无限循环的数字流输出<br>
+🔎🔎🔎<br>
+0 255 63<br>
+1 255 63<br>
+......<br>
+🔎🔎🔎</p>
+<p>说明：左上角为（0，0）点，目前rgb的范围局限在0.0-1.0</p>
+<p>2️⃣图像输出<br>
+（Windows下）<br>
+cmd进入项目文件夹，cd到和debug产生的exe文件同一级目录，输入xxxx/xx.exe &gt; xx.ppm（&gt;，&gt;&gt;均可）<br>
+即可在当前目录看到生成的图像文件ppm</p>
+<p>图像特征下方从左到右从黑色过渡到红色，左方从下到上从黑色过渡到绿色，绿红交会在右上角，显示黄色<br>
+如图</p>
+<p><img src="https://Zuikaku520.github.io/post-images/1683821127696.png" alt="" loading="lazy"><br>
+🔑🔑<br>
+这里推荐个好用的在线PPM格式查看器WebPPM：https://0xc0de.fr/webppm/</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://Zuikaku520.github.io/post/hello-gridea/">
+                <h3 class="post-title">
+                  Hello Gridea
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
+
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://Zuikaku520.github.io/images/avatar.png?v=1683821243020" class="no-responsive avatar">
+    <div class="text-muted">个人小站，学习自用</div>
+    <div class="social-container">
+      
+        
+          <a href="https://github.com/Zuikaku520" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a href="https://twitter.com/shanchengruihe1" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://Zuikaku520.github.io/post/ray-tracing-one-weekend/">RAY TRACING One Weekend</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://Zuikaku520.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://Zuikaku520.github.io/post/hello-gridea/">Hello Gridea</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://Zuikaku520.github.io/tag/XPQOZvMe4/" class="badge ">
+          Gridea
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://Zuikaku520.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '4eb05c1dfd7a804088fa',
+        clientSecret: '0d23701afb1ce133c6c7a8bc6437483768403e60',
+        repo: 'Zuikaku520.github.io',
+        owner: 'Zuikaku520',
+        admin: ['Zuikaku520'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

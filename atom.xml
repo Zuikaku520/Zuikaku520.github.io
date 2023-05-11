@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://Zuikaku520.github.io</id>
+    <title>zuikakublog</title>
+    <updated>2023-05-11T16:24:32.967Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://Zuikaku520.github.io"/>
+    <link rel="self" href="https://Zuikaku520.github.io/atom.xml"/>
+    <subtitle>个人小站，学习自用</subtitle>
+    <logo>https://Zuikaku520.github.io/images/avatar.png</logo>
+    <icon>https://Zuikaku520.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, zuikakublog</rights>
+    <entry>
+        <title type="html"><![CDATA[RAY TRACING One Weekend]]></title>
+        <id>https://Zuikaku520.github.io/post/ray-tracing-one-weekend/</id>
+        <link href="https://Zuikaku520.github.io/post/ray-tracing-one-weekend/">
+        </link>
+        <updated>2023-05-11T15:45:14.000Z</updated>
+        <content type="html"><![CDATA[<p>1.输出一副图像<br>
+渲染首先从一个图像的生成开始，常见的图像格式有很多，这里使用ppm格式图像的的文本流渲染输出和图像本身的渲染输出两种形式展现。</p>
+<p>1️⃣C++的流输出</p>
+<p>文档给出的代码如下</p>
+<p>📌📌📌<br>
+#include <iostream></p>
+<p>int main() {</p>
+<pre><code>// Image
+
+//输出一个256*256像素的图片
+const int image_width = 256;
+const int image_height = 256;
+
+// Render
+
+std::cout &lt;&lt; &quot;P3\n&quot; &lt;&lt; image_width &lt;&lt; ' ' &lt;&lt; image_height &lt;&lt; &quot;\n255\n&quot;;
+
+for (int j = image_height-1; j &gt;= 0; --j) {
+    for (int i = 0; i &lt; image_width; ++i) {
+        auto r = double(i) / (image_width-1);
+        auto g = double(j) / (image_height-1);
+        auto b = 0.25;
+
+        int ir = static_cast&lt;int&gt;(255.999 * r);
+        int ig = static_cast&lt;int&gt;(255.999 * g);
+        int ib = static_cast&lt;int&gt;(255.999 * b);
+
+        std::cout &lt;&lt; ir &lt;&lt; ' ' &lt;&lt; ig &lt;&lt; ' ' &lt;&lt; ib &lt;&lt; '\n';
+    }
+}
+</code></pre>
+<p>}<br>
+📌📌📌</p>
+<p>debug后相当于把图像写到文件中，编译可以看到如下的无限循环的数字流输出<br>
+🔎🔎🔎<br>
+0 255 63<br>
+1 255 63<br>
+......<br>
+🔎🔎🔎</p>
+<p>说明：左上角为（0，0）点，目前rgb的范围局限在0.0-1.0</p>
+<p>2️⃣图像输出<br>
+（Windows下）<br>
+cmd进入项目文件夹，cd到和debug产生的exe文件同一级目录，输入xxxx/xx.exe &gt; xx.ppm（&gt;，&gt;&gt;均可）<br>
+即可在当前目录看到生成的图像文件ppm</p>
+<p>图像特征下方从左到右从黑色过渡到红色，左方从下到上从黑色过渡到绿色，绿红交会在右上角，显示黄色<br>
+如图</p>
+<p><img src="https://Zuikaku520.github.io/post-images/1683821127696.png" alt="" loading="lazy"><br>
+🔑🔑<br>
+这里推荐个好用的在线PPM格式查看器WebPPM：https://0xc0de.fr/webppm/</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://Zuikaku520.github.io/post/hello-gridea/</id>
+        <link href="https://Zuikaku520.github.io/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="https://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
